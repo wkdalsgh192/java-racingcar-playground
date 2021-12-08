@@ -1,14 +1,9 @@
+package Warmup;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class CalculatorTest {
 
@@ -48,34 +43,20 @@ public class CalculatorTest {
         Assertions.assertThat(calculator.calc("///\n10/20/30")).isEqualTo(60);
     }
 
-    private class Calculator {
-
-        private String delimiter = "[,:]";
-        private String value = "";
-
-        public int calc(String input) {
-            int answer = 0;
-            if (input == null || "".equals(input)) return answer;
-            //TODO 구분자 구하기
-            String patternString = "^//.\n";
-            Pattern pattern = Pattern.compile(patternString);
-            Matcher matcher = pattern.matcher(input);
-
-            if (matcher.find()) {
-                delimiter = Arrays.stream(input.split("^//|\n")).filter(s -> !"".equals(s)).findFirst().orElse(delimiter);
-                value = pattern.splitAsStream(input).filter(s -> !"".equals(s)).collect(Collectors.joining());
-                String[] arrays = value.split(delimiter);
-                for (String s : arrays) {
-                    answer+=Integer.parseInt(s);
-                }
-                return answer;
-            }
-            //TODO 구분자에 따라 나누기
-            String[] arrays = input.split(delimiter);
-            for (String s : arrays) {
-                answer+=Integer.parseInt(s);
-            }
-            return answer;
-        }
+    @Test
+    @DisplayName("커스텀 구분자 사용했을 때 다른 구분자가 있는 경우 예외 처리하기")
+    void When_AnotherDelimitersUsed_Expect_ThrowException() {
+        Assertions.assertThatThrownBy(() -> {
+            calculator.calc("//;\n1,2,4");
+        }).isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    @DisplayName("음수를 전달하는 경우 예외 처리")
+    void When_NegativeNumbersGiven_Expect_ThrowRuntimeException() {
+        Assertions.assertThatThrownBy(() -> {
+            calculator.calc("//;\n-1;2;4");
+        }).isInstanceOf(RuntimeException.class).hasMessageContaining("음수는 처리할 수 없습니다.");
+    }
+
 }

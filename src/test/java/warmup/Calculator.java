@@ -1,4 +1,4 @@
-package Warmup;
+package warmup;
 
 class Calculator {
 

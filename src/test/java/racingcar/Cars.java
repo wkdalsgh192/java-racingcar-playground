@@ -23,7 +23,6 @@ class Cars {
 
     public Cars(List<Car> carList) {
         lot = carList;
-
     }
 
     private String[] split(String input) {

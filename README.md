@@ -69,6 +69,14 @@ ex) git checkout -b apply-feedback
 > - 자동차가 이동하는 조건은 랜덤하게 구해진 값이 4 이상인 경우이다. { car.move() -> if RAND > 4, position++ }
 > - 자동차 이름은 쉼표를 기준으로 구분한다.
 
+자동차 종류
+- 테스트 자동차
+- 실제 자동차
+
+=실제 자동차와 테스트 자동차의 기능은 같지만 조건은 다를 수 있다. 
+- 움직임에 대한 같은 기능 명세 : DrivingStrategy
+- 움직임에 대한 다른 조건 명세 : TestDrivingStrategy implements DrivingStrategy
+
 ### 자동차들 & 레이싱 경주
 > - !! 자동차 전진 조건이 랜덤값에 의존적이라면 어떻게 레이싱 결과를 알 수 있을까?
 > - 우승한 자동차들의 생성 인스턴스와 결과 인스턴스는 같다. { input.equals(output) == true }

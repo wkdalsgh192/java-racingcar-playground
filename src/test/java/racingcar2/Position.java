@@ -9,16 +9,18 @@ class Position {
 
     Position() {}
 
-    void change() {
-        if (getRandNum() >= MOVE_CONSTRAINT) value++;
+    void change(boolean qualified) {
+        if (qualified) value++;
     }
 
-    private int getRandNum() {
+    /**
+     * 스테틱 메소드로 만들어, 프로덕션 코드에서 Car 인스턴스 생성 시점에 isQualified()의 리턴값으로 사용할 수 있게 만든다.
+     * */
+    public static int getRandNum() {
         return ThreadLocalRandom.current().nextInt(10);
     }
 
     @Deprecated
-    // Getter로 객체의 값을 무조건 가지고 오기보다 타겟 객체에 메시지를 보낼 수는 없을까?
     public int getPosition() {
         return this.value;
     }

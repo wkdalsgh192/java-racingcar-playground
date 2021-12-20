@@ -12,30 +12,20 @@ class Cars {
     Cars() { value = new ArrayList<>(); }
 
     Cars(@NonNull String names) {
-        this.value = Arrays.stream(names.split(",")).map(name -> new Car(name) {
-            @Override
-            public boolean isQualified() {
-                return true;
-            }
-        }).collect(Collectors.toList());
+        this.value = Arrays.stream(names.split(",")).map(name -> new Car(name)).collect(Collectors.toList());
     }
 
     void move(List<Integer> moveCountList) {
         for (int i = 0; i < moveCountList.size(); i++) {
             Car car = value.get(i);
             for (int j = 0; j < moveCountList.get(i); j++) {
-                car.move();
+                car.move(() -> true);
             }
         }
     }
 
     Car getMaxPosCar() {
-        Car init = new Car("") {
-            @Override
-            public boolean isQualified() {
-                return true;
-            }
-        };
+        Car init = new Car("");
         for (int i = 0; i < value.size(); i++) {
             init = Car.compare(init, value.get(i));
         }

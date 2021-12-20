@@ -2,7 +2,7 @@ package racingcar2;
 
 import java.util.Objects;
 
-abstract class Car {
+class Car {
 
     private Name name;
     private Position position;
@@ -19,8 +19,8 @@ abstract class Car {
 
     Position getPosition() { return position; }
 
-    void move() {
-        position.change(isQualified());
+    void move(DrivingStrategy drivingStrategy) {
+        position.change(drivingStrategy.isQualified());
     }
 
     static Car compare(Car o1, Car o2) {
@@ -28,11 +28,7 @@ abstract class Car {
         return o2;
     }
 
-    /**
-     * 추상 메소드를 사용해, 인스턴스 생성 시점에 이를 구현함으로써 테스트 코드 작성 시점까지 로직 구현을 유보할 수 있다.
-     * 보다 유연한 테스트 환경 구축 가능.
-     */
-    abstract boolean isQualified();
+
 
     @Override
     public boolean equals(Object o) {

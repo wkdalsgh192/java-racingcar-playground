@@ -7,25 +7,37 @@ abstract class Car {
     private Name name;
     private Position position;
 
-    public Car(String name) {
+    Car(String name) {
         this.name = new Name(name);
         this.position = new Position();
     }
 
-    public void move() {
+    Car(String name, int pos) {
+        this.name = new Name(name);
+        this.position = new Position(pos);
+    }
+
+    Position getPosition() { return position; }
+
+    void move() {
         position.change(isQualified());
+    }
+
+    static Car compare(Car o1, Car o2) {
+        if (o1.position.isBiggerThan(o2.position)) return o1;
+        return o2;
     }
 
     /**
      * 추상 메소드를 사용해, 인스턴스 생성 시점에 이를 구현함으로써 테스트 코드 작성 시점까지 로직 구현을 유보할 수 있다.
      * 보다 유연한 테스트 환경 구축 가능.
      */
-    public abstract boolean isQualified();
+    abstract boolean isQualified();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
         Car car = (Car) o;
         return Objects.equals(name, car.name) && Objects.equals(position, car.position);
     }
@@ -39,6 +51,4 @@ abstract class Car {
     public int hashCode() {
         return Objects.hash(name, position);
     }
-
-
 }

@@ -5,9 +5,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class Position {
     private final int MOVE_CONSTRAINT = 4;
-    int value = 0;
+    private int value = 0;
 
     Position() {}
+
+    Position(int pos) { this.value = pos; }
 
     void change(boolean qualified) {
         if (qualified) value++;
@@ -16,7 +18,7 @@ class Position {
     /**
      * 스테틱 메소드로 만들어, 프로덕션 코드에서 Car 인스턴스 생성 시점에 isQualified()의 리턴값으로 사용할 수 있게 만든다.
      * */
-    public static int getRandNum() {
+    static int getRandNum() {
         return ThreadLocalRandom.current().nextInt(10);
     }
 
@@ -36,5 +38,14 @@ class Position {
     @Override
     public int hashCode() {
         return Objects.hash(MOVE_CONSTRAINT, value);
+    }
+
+    void update(Position other) {
+        if (other.value > this.value) this.value = other.value;
+    }
+
+    boolean isBiggerThan(Position other) {
+        if (this.value > other.value) return true;
+        return false;
     }
 }
